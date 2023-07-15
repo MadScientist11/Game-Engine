@@ -1,4 +1,5 @@
 ﻿using Silk.NET.Maths;
+using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
 namespace GameEngine.Core;
@@ -6,9 +7,11 @@ namespace GameEngine.Core;
 public abstract class GameWindowBase
 {
     protected Graphics Graphics => _graphics;
-    
+
     private IWindow _window;
     private Graphics _graphics;
+
+    public double Time => _window.Time;
 
     public void Initialize()
     {
@@ -21,12 +24,11 @@ public abstract class GameWindowBase
         _window.Update += OnUpdate;
         _window.Render += OnRender;
     }
-    
+
     public void Run() => _window.Run();
 
     protected virtual void OnCreateWindow(ref WindowOptions windowOptions)
     {
-       
     }
 
     protected virtual void OnLoad()
@@ -41,6 +43,5 @@ public abstract class GameWindowBase
 
     protected virtual void OnRender(double deltaTime)
     {
-        Graphics.Render();
     }
 }
