@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v7.0": {
       "GameEngine/1.0.0": {
         "dependencies": {
-          "Silk.NET": "2.17.1"
+          "Silk.NET": "2.17.1",
+          "StbImageSharp": "2.27.13"
         },
         "runtime": {
           "GameEngine.dll": {}
@@ -228,6 +229,14 @@
           }
         }
       },
+      "StbImageSharp/2.27.13": {
+        "runtime": {
+          "lib/netstandard2.0/StbImageSharp.dll": {
+            "assemblyVersion": "2.27.13.0",
+            "fileVersion": "2.27.13.0"
+          }
+        }
+      },
       "System.Buffers/4.5.1": {},
       "System.Memory/4.5.5": {},
       "System.Numerics.Vectors/4.5.0": {},
@@ -443,6 +452,13 @@
       "sha512": "sha512-D3uS1sMxQp9FAZ+U90sHSBIT/tQ7kUi6TAnxeQJQOqqzDxLj/i8ilQlrY49tylISzONCqsdE2nimKRGBRfO77Q==",
       "path": "silk.net.windowing.sdl/2.17.1",
       "hashPath": "silk.net.windowing.sdl.2.17.1.nupkg.sha512"
+    },
+    "StbImageSharp/2.27.13": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tHnP2RHgFzWbOS96UqvRO/LYU1WmpMT1bKiig45we+rpaXacBr11Fq2IBF+MqlgyLyNXxRz18E66qr4R9YlSbg==",
+      "path": "stbimagesharp/2.27.13",
+      "hashPath": "stbimagesharp.2.27.13.nupkg.sha512"
     },
     "System.Buffers/4.5.1": {
       "type": "package",

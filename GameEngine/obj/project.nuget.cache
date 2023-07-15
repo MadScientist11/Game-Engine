@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "gdPH7NakIcfiqbgtoB7S2X5xT97igff7NwV6sbsh9+7Ed5oGXy7IDF+gdBGwh/ALasKkC83kbKHHcfQPrN0CZA==",
+  "dgSpecHash": "hcbJyRngfSs6VbhCKJTvH5+Y+r/MU9zkt8k2Bi8S4TVzFKdEF6lEaKZ4eipA/ghL47M+eCKHQTwWbZAg+Qh6UQ==",
   "success": true,
   "projectFilePath": "D:\\UnityProjects\\GameEngine\\GameEngine\\GameEngine.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\rogac\\.nuget\\packages\\silk.net.windowing.common\\2.17.1\\silk.net.windowing.common.2.17.1.nupkg.sha512",
     "C:\\Users\\rogac\\.nuget\\packages\\silk.net.windowing.glfw\\2.17.1\\silk.net.windowing.glfw.2.17.1.nupkg.sha512",
     "C:\\Users\\rogac\\.nuget\\packages\\silk.net.windowing.sdl\\2.17.1\\silk.net.windowing.sdl.2.17.1.nupkg.sha512",
+    "C:\\Users\\rogac\\.nuget\\packages\\stbimagesharp\\2.27.13\\stbimagesharp.2.27.13.nupkg.sha512",
     "C:\\Users\\rogac\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\rogac\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
     "C:\\Users\\rogac\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

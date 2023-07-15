@@ -12,6 +12,8 @@ public class GameWindow : GameWindowBase
     private Mesh _mesh;
     private Mesh _mesh1;
     private Shader _shader;
+    private Texture2D _texture;
+    private Texture2D _texture2;
 
     protected override void OnCreateWindow(ref WindowOptions windowOptions)
     {
@@ -48,6 +50,8 @@ public class GameWindow : GameWindowBase
             0.0f, 0.0f, 1.0f,
             0.0f, 0.0f, 1.0f,
         });
+        
+    
 
         _mesh.SetVertices(vertices);
         _mesh.SetTriangles(indices);
@@ -72,17 +76,38 @@ public class GameWindow : GameWindowBase
             0.0f, 1.0f, 0.0f,
             0.0f, 0.0f, 1.0f
         });
+        
+        _mesh1.SetTextureCoords(new[]
+        {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+        });
         _mesh1.SetVertices(vertices1);
         _mesh1.SetTriangles(indices1);
 
         _shader = Shader.Create(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert",
             @"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.frag");
+
+        _texture = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\wood.png");
+        _texture2 = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\awesomeface.png");
+        
+
     }
 
     protected override void OnRender(double obj)
     {
         Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
         Shader.SetFloat(_shader.Id, "t", (float)Time % 1);
+        Texture2D.Bind(_texture.Id, 0);
+        Texture2D.Bind(_texture2.Id, 1);
+        
+        Shader.SetInt(_shader.Id, "texture1", 0);
+
+        Shader.SetInt(_shader.Id, "texture2", 1);
+
+
+
         Graphics.Render(_mesh, _shader);
         Graphics.Render(_mesh1, _shader);
     }

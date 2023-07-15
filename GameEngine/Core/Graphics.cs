@@ -46,6 +46,7 @@ public class Graphics
         SetMesh(mesh);
         Gl.BindVertexArray(_currentVAO);
         Gl.UseProgram(shader.Id);
+        
         Gl.DrawElements(PrimitiveType.Triangles, (uint)mesh.Triangles.Length, DrawElementsType.UnsignedInt, (void*) 0);
     }
 
@@ -78,11 +79,15 @@ public class Graphics
 
         const uint positionLoc = 0;
         Gl.EnableVertexAttribArray(positionLoc);
-        Gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)0);
+        Gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)0);
         
         const uint colorLoc = 1;
         Gl.EnableVertexAttribArray(colorLoc);
-        Gl.VertexAttribPointer(colorLoc, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)(3*sizeof(float)));
+        Gl.VertexAttribPointer(colorLoc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)(3*sizeof(float)));
+        
+        const uint uvLoc = 2;
+        Gl.EnableVertexAttribArray(uvLoc);
+        Gl.VertexAttribPointer(uvLoc, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)(6*sizeof(float)));
 
         Gl.BindVertexArray(0);
         Gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);

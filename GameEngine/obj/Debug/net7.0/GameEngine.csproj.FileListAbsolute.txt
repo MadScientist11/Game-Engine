@@ -40,3 +40,4 @@ D:\UnityProjects\GameEngine\GameEngine\bin\Debug\net7.0\runtimes\osx-x64\native\
 D:\UnityProjects\GameEngine\GameEngine\bin\Debug\net7.0\runtimes\win-arm64\native\SDL2.dll
 D:\UnityProjects\GameEngine\GameEngine\bin\Debug\net7.0\runtimes\win-x64\native\SDL2.dll
 D:\UnityProjects\GameEngine\GameEngine\obj\Debug\net7.0\GameEngine.csproj.CopyComplete
+D:\UnityProjects\GameEngine\GameEngine\bin\Debug\net7.0\StbImageSharp.dll

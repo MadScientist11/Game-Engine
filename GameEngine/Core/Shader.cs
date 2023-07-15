@@ -50,6 +50,17 @@ public class Shader
         int location = Gl.GetUniformLocation(shaderId, name);
         Gl.Uniform1(location, value);
     }
+    
+    public static void SetInt(uint shaderId, string name, int value)
+    {
+        int location = Gl.GetUniformLocation(shaderId, name);
+        Gl.Uniform1(location, value);
+    }
+
+    public void Use()
+    {
+        Gl.UseProgram(Id);
+    }
 
     public static void CompileShader(uint shader)
     {
