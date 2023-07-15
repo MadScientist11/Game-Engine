@@ -63,8 +63,9 @@ public class Graphics
         _currentVBO = Gl.GenBuffer();
         Gl.BindBuffer(BufferTargetARB.ArrayBuffer, _currentVBO);
 
-        fixed (float* buf = mesh.Attributes)
-            Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(mesh.Attributes.Length * sizeof(float)), buf,
+        float[] vertexAttributes = mesh.GetAttributes().ToArray();
+        fixed (float* buf = vertexAttributes)
+            Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(vertexAttributes.Length * sizeof(float)), buf,
                 BufferUsageARB.StaticDraw);
 
         _currentEBO = Gl.GenBuffer();

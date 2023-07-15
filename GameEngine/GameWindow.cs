@@ -25,16 +25,15 @@ public class GameWindow : GameWindowBase
         base.OnLoad();
         Graphics.SetClearColor(Color.CornflowerBlue);
         Graphics.SetMaterial(Material.Default());
-    
+
         _mesh = new Mesh();
         float[] vertices =
         {
-            0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-            0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
-            -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+            0.5f, 0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+            -0.5f, 0.5f, 0.0f,
         };
-        
 
 
         uint[] indices =
@@ -42,39 +41,49 @@ public class GameWindow : GameWindowBase
             0u, 1u, 3u,
             1u, 2u, 3u
         };
+        _mesh.SetColors(new[]
+        {
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+        });
 
-        _mesh.SetAttributes(vertices);
+        _mesh.SetVertices(vertices);
         _mesh.SetTriangles(indices);
 
         _mesh1 = new Mesh();
-        
+
         float[] vertices1 =
         {
-            0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0f,
-            0.75f, -0.75f, 0.0f, 0.0f, 1.0f, 0.0f, 
-            -0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f
-        
-        }; 
+            0.75f, 0.75f, 0.0f,
+            0.75f, -0.75f, 0.0f,
+            -0.75f, -0.75f, 0.0f,
+        };
 
         uint[] indices1 =
         {
             0u, 1u, 2u,
         };
-        
-        _mesh1.SetAttributes(vertices1);
+
+        _mesh1.SetColors(new[]
+        {
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f
+        });
+        _mesh1.SetVertices(vertices1);
         _mesh1.SetTriangles(indices1);
 
         _shader = Shader.Create(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert",
             @"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.frag");
-        
-        
     }
 
     protected override void OnRender(double obj)
     {
         Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
-        Shader.SetFloat(_shader.Id, "t", (float)Time %1);
+        Shader.SetFloat(_shader.Id, "t", (float)Time % 1);
         Graphics.Render(_mesh, _shader);
-        Graphics.Render(_mesh1,_shader);
+        Graphics.Render(_mesh1, _shader);
     }
 }

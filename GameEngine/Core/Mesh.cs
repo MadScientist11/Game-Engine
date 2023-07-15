@@ -8,8 +8,7 @@ public class Mesh
     public uint[] Triangles { get; private set; }
 
     public float[] Colors { get; private set; }
-    
-    public float[] Attributes { get; private set; }
+
 
     public void SetVertices(float[] vertices)
     {
@@ -20,14 +19,27 @@ public class Mesh
     {
         Triangles = triangles;
     }
-    
+
     public void SetColors(float[] colors)
     {
         Colors = colors;
     }
-    
-    public void SetAttributes(float[] attributes)
+
+    public List<float> GetAttributes()
     {
-        Attributes = attributes;
+        List<float> attributes = new List<float>(Vertices.Length);
+        for (int i = 0; i < Vertices.Length / 3; i++)
+        {
+            int offset = i * 3;
+            attributes.Add(Vertices[0 + offset]);
+            attributes.Add(Vertices[1 + offset]);
+            attributes.Add(Vertices[2 + offset]);
+
+            attributes.Add(Colors[0 + offset]);
+            attributes.Add(Colors[1 + offset]);
+            attributes.Add(Colors[2 + offset]);
+        }
+
+        return attributes;
     }
 }
