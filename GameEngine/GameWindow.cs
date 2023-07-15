@@ -29,11 +29,13 @@ public class GameWindow : GameWindowBase
         _mesh = new Mesh();
         float[] vertices =
         {
-            0.5f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f
+            0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+            -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
         };
+        
+
 
         uint[] indices =
         {
@@ -41,16 +43,16 @@ public class GameWindow : GameWindowBase
             1u, 2u, 3u
         };
 
-        _mesh.SetVertices(vertices);
+        _mesh.SetAttributes(vertices);
         _mesh.SetTriangles(indices);
 
         _mesh1 = new Mesh();
         
         float[] vertices1 =
         {
-            0.75f, 0.75f, 0.0f,
-            0.75f, -0.75f, 0.0f,
-            -0.75f, -0.75f, 0.0f,
+            0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.75f, -0.75f, 0.0f, 0.0f, 1.0f, 0.0f, 
+            -0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f
         
         }; 
 
@@ -59,7 +61,7 @@ public class GameWindow : GameWindowBase
             0u, 1u, 2u,
         };
         
-        _mesh1.SetVertices(vertices1);
+        _mesh1.SetAttributes(vertices1);
         _mesh1.SetTriangles(indices1);
 
         _shader = Shader.Create(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert",

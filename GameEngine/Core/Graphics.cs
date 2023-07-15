@@ -63,8 +63,8 @@ public class Graphics
         _currentVBO = Gl.GenBuffer();
         Gl.BindBuffer(BufferTargetARB.ArrayBuffer, _currentVBO);
 
-        fixed (float* buf = mesh.Vertices)
-            Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(mesh.Vertices.Length * sizeof(float)), buf,
+        fixed (float* buf = mesh.Attributes)
+            Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(mesh.Attributes.Length * sizeof(float)), buf,
                 BufferUsageARB.StaticDraw);
 
         _currentEBO = Gl.GenBuffer();
@@ -77,7 +77,11 @@ public class Graphics
 
         const uint positionLoc = 0;
         Gl.EnableVertexAttribArray(positionLoc);
-        Gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
+        Gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)0);
+        
+        const uint colorLoc = 1;
+        Gl.EnableVertexAttribArray(colorLoc);
+        Gl.VertexAttribPointer(colorLoc, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)(3*sizeof(float)));
 
         Gl.BindVertexArray(0);
         Gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);

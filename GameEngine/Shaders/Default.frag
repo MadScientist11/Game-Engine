@@ -1,10 +1,10 @@
 #version 330 core
 
 uniform float t;
-
+in vec3 ourColor;
 out vec4 out_color;
 
 void main()
 {
-    out_color = vec4(1.0, t, 0.2, 1.0);
+    out_color = vec4(ourColor,1.0);
 }

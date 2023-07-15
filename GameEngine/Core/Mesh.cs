@@ -8,6 +8,8 @@ public class Mesh
     public uint[] Triangles { get; private set; }
 
     public float[] Colors { get; private set; }
+    
+    public float[] Attributes { get; private set; }
 
     public void SetVertices(float[] vertices)
     {
@@ -22,5 +24,10 @@ public class Mesh
     public void SetColors(float[] colors)
     {
         Colors = colors;
+    }
+    
+    public void SetAttributes(float[] attributes)
+    {
+        Attributes = attributes;
     }
 }
