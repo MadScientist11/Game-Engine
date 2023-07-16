@@ -15,6 +15,7 @@ public class GameWindow : GameWindowBase
     private Shader _shader;
     private Texture2D _texture;
     private Texture2D _texture2;
+    private GameObject _gameObject;
 
     protected override void OnCreateWindow(ref WindowOptions windowOptions)
     {
@@ -28,7 +29,27 @@ public class GameWindow : GameWindowBase
         base.OnLoad();
         Graphics.SetClearColor(Color.CornflowerBlue);
 
-        _mesh = new Mesh();
+        Mesh mesh = CreateQuadMesh();
+
+        _texture = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\wood.png");
+        _texture2 = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\awesomeface.png");
+        _shader = Shader.Create(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert",
+            @"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.frag");
+
+        Material material = new Material(_shader, _texture);
+
+        _gameObject = new GameObject(mesh, material);
+    }
+
+    protected override void OnRender(double obj)
+    {
+        Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
+        Graphics.Render(_gameObject);
+    }
+
+    private Mesh CreateQuadMesh()
+    {
+        Mesh mesh = new Mesh();
         float[] vertices =
         {
             0.5f, 0.5f, 0.0f,
@@ -37,82 +58,34 @@ public class GameWindow : GameWindowBase
             -0.5f, 0.5f, 0.0f,
         };
 
-
         uint[] indices =
         {
             0u, 1u, 3u,
             1u, 2u, 3u
         };
-        _mesh.SetColors(new[]
+
+        float[] colors =
         {
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-        });
-        
-    
-
-        _mesh.SetVertices(vertices);
-        _mesh.SetTriangles(indices);
-
-        _mesh1 = new Mesh();
-
-        float[] vertices1 =
-        {
-            0.75f, 0.75f, 0.0f,
-            0.75f, -0.75f, 0.0f,
-            -0.75f, -0.75f, 0.0f,
-        };
-
-        uint[] indices1 =
-        {
-            0u, 1u, 2u,
-        };
-
-        _mesh1.SetColors(new[]
-        {
-            1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 1.0f
-        });
+            0.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 0.0f,
+        };
         
-        _mesh1.SetTextureCoords(new[]
+        float[] textureCoords =
         {
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-        });
-        _mesh1.SetVertices(vertices1);
-        _mesh1.SetTriangles(indices1);
-
-        _shader = Shader.Create(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert",
-            @"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.frag");
-
-        _texture = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\wood.png");
-        _texture2 = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\awesomeface.png");
-        
-
-    }
-
-    protected override void OnRender(double obj)
-    {
-        Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
-        Shader.SetFloat(_shader.Id, "t", (float)Time % 1);
-        Shader.SetMatrix(_shader.Id, "transform", Matrix4x4.CreateScale(1) * 
-                                                  Matrix4x4.CreateFromQuaternion(Quaternion.CreateFromAxisAngle(new Vector3(0,0,1), 
-                                                      MathHelper.ToRadians((float)Time) )) *
-                                                  Matrix4x4.CreateTranslation(Vector3.Zero));
-        Texture2D.Bind(_texture.Id, 0);
-        Texture2D.Bind(_texture2.Id, 1);
-        
-        Shader.SetInt(_shader.Id, "texture1", 0);
-
-        Shader.SetInt(_shader.Id, "texture2", 1);
+            1, 1,
+            1, 0,
+            0, 0,
+            0, 1,
+        };
 
 
+        mesh.SetVertices(vertices)
+            .SetTriangles(indices)
+            .SetColors(colors)
+            .SetTextureCoords(textureCoords);
 
-        Graphics.Render(_mesh, _shader);
-        Graphics.Render(_mesh1, _shader);
+        return mesh;
     }
 }

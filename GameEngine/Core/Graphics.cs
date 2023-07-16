@@ -27,72 +27,15 @@ public class Graphics
 
     public void ClearColor(ClearBufferMask mask) => Gl.Clear(mask);
 
-    public unsafe void Render()
+
+    public unsafe void Render(GameObject gameObject)
     {
-        Gl.BindVertexArray(_currentVAO);
-        Gl.UseProgram(_currentShaders);
-        Gl.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, (void*) 0);
+        gameObject.Mesh.Build();
+
+        Gl.BindVertexArray(gameObject.Mesh.Id);
+        Gl.UseProgram(gameObject.Material.ShaderId);
+
+        uint count = (uint)gameObject.Mesh.Triangles.Length;
+        Gl.DrawElements(PrimitiveType.Triangles, count, DrawElementsType.UnsignedInt, (void*)0);
     }
-    
-    public unsafe void Render(Shader shader)
-    {
-        Gl.BindVertexArray(_currentVAO);
-        Gl.UseProgram(shader.Id);
-        Gl.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, (void*) 0);
-    }
-    
-    public unsafe void Render(Mesh mesh, Shader shader)
-    {
-        SetMesh(mesh);
-        Gl.BindVertexArray(_currentVAO);
-        Gl.UseProgram(shader.Id);
-        
-        Gl.DrawElements(PrimitiveType.Triangles, (uint)mesh.Triangles.Length, DrawElementsType.UnsignedInt, (void*) 0);
-    }
-
-
-    public void SetMaterial(Material material)
-    {
-       
-    }
-
-    public unsafe void SetMesh(Mesh mesh)
-    {
-        _currentVAO = Gl.GenVertexArray();
-        Gl.BindVertexArray(_currentVAO);
-
-        _currentVBO = Gl.GenBuffer();
-        Gl.BindBuffer(BufferTargetARB.ArrayBuffer, _currentVBO);
-
-        float[] vertexAttributes = mesh.GetAttributes().ToArray();
-        fixed (float* buf = vertexAttributes)
-            Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(vertexAttributes.Length * sizeof(float)), buf,
-                BufferUsageARB.StaticDraw);
-
-        _currentEBO = Gl.GenBuffer();
-        Gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, _currentEBO);
-
-        fixed (uint* buf = mesh.Triangles)
-            Gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint)(mesh.Triangles.Length * sizeof(uint)), buf,
-                BufferUsageARB.StaticDraw);
-
-
-        const uint positionLoc = 0;
-        Gl.EnableVertexAttribArray(positionLoc);
-        Gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)0);
-        
-        const uint colorLoc = 1;
-        Gl.EnableVertexAttribArray(colorLoc);
-        Gl.VertexAttribPointer(colorLoc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)(3*sizeof(float)));
-        
-        const uint uvLoc = 2;
-        Gl.EnableVertexAttribArray(uvLoc);
-        Gl.VertexAttribPointer(uvLoc, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), (void*)(6*sizeof(float)));
-
-        Gl.BindVertexArray(0);
-        Gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
-        Gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
-    }
-
-  
 }
