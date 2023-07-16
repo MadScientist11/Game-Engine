@@ -1,4 +1,6 @@
-﻿using Silk.NET.OpenGL;
+﻿using System.Numerics;
+using Silk.NET.Maths;
+using Silk.NET.OpenGL;
 using static GameEngine.Core.Graphics;
 
 namespace GameEngine.Core;
@@ -55,6 +57,12 @@ public class Shader
     {
         int location = Gl.GetUniformLocation(shaderId, name);
         Gl.Uniform1(location, value);
+    }
+
+    public static unsafe void SetMatrix(uint shaderId, string name, Matrix4x4 value, bool transpose = true)
+    {
+        int location = Gl.GetUniformLocation(shaderId, name);
+        Gl.UniformMatrix4(location, 1, transpose, (float*) &value);
     }
 
     public void Use()

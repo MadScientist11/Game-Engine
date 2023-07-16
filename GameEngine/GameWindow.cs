@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Numerics;
 using GameEngine.Core;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -26,7 +27,6 @@ public class GameWindow : GameWindowBase
     {
         base.OnLoad();
         Graphics.SetClearColor(Color.CornflowerBlue);
-        Graphics.SetMaterial(Material.Default());
 
         _mesh = new Mesh();
         float[] vertices =
@@ -99,6 +99,10 @@ public class GameWindow : GameWindowBase
     {
         Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
         Shader.SetFloat(_shader.Id, "t", (float)Time % 1);
+        Shader.SetMatrix(_shader.Id, "transform", Matrix4x4.CreateScale(1) * 
+                                                  Matrix4x4.CreateFromQuaternion(Quaternion.CreateFromAxisAngle(new Vector3(0,0,1), 
+                                                      MathHelper.ToRadians((float)Time) )) *
+                                                  Matrix4x4.CreateTranslation(Vector3.Zero));
         Texture2D.Bind(_texture.Id, 0);
         Texture2D.Bind(_texture2.Id, 1);
         

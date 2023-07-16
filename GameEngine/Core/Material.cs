@@ -1,20 +1,30 @@
-﻿namespace GameEngine.Core;
+﻿using System.Numerics;
+
+namespace GameEngine.Core;
 
 public class Material
 {
-    public string VertexShader { get; init; }
-    public string FragmentShader { get; init; }
+    public uint ShaderId { get; }
+    public Texture2D Albedo { get; }
 
-    public Material(string vertexShader, string fragmentShader)
+    public Material(Shader shader, Texture2D albedo)
     {
-        VertexShader = vertexShader;
-        FragmentShader = fragmentShader;
+        ShaderId = shader.Id;
+        Albedo = albedo;
     }
 
-    public static Material Default()
+    public void SetFloat(string name, float value)
     {
-        string vs = File.ReadAllText(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert");
-        string fs = File.ReadAllText(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.frag");
-        return new Material(vs, fs);
+        Shader.SetFloat(ShaderId, name, value);
+    }
+    
+    public void SetInt(string name, int value)
+    {
+        Shader.SetInt(ShaderId, name, value);
+    }
+    
+    public void SetMatrix4x4(string name, Matrix4x4 value)
+    {
+        Shader.SetMatrix(ShaderId, name, value);
     }
 }
