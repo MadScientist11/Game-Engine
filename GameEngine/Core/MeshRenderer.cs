@@ -10,4 +10,7 @@ public class MeshRenderer : Component
         Mesh = mesh;
         Material = material;
     }
+    
+
+    
 }

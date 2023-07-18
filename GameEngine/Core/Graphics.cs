@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Numerics;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
@@ -28,7 +29,7 @@ public class Graphics
     public void ClearColor(ClearBufferMask mask) => Gl.Clear(mask);
 
 
-    public unsafe void Render(Mesh mesh, Material material)
+    public unsafe void Render(Transform transform, Mesh mesh, Material material)
     {
         if (material.Albedo != null)
             Texture2D.Bind(material.Albedo.Id, 0);
@@ -37,6 +38,8 @@ public class Graphics
         Gl.BindVertexArray(mesh.Id);
         Gl.UseProgram(material.ShaderId);
 
+        material.SetMatrix4x4("TRS", transform.TRS);
+        
         uint count = (uint)mesh.Triangles.Length;
         Gl.DrawElements(PrimitiveType.Triangles, count, DrawElementsType.UnsignedInt, (void*)0);
     }

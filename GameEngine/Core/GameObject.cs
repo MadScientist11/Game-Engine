@@ -4,11 +4,11 @@ namespace GameEngine.Core;
 
 public class GameObject
 {
-    private List<Component> _components;
+    private readonly List<Component> _components = new();
 
     public GameObject()
     {
-        _components.Add(new Transform
+        AddComponent(new Transform
         {
             Position = Vector3.One,
             Scale = Vector3.One,
@@ -16,25 +16,17 @@ public class GameObject
         });
     }
 
+    public List<Component> Components => _components;
+
     public void AddComponent<T>(T component) where T : Component
     {
-        _components.Add(component);
+        component.GameObject = this;
+        Components.Add(component);
     }
 
     public bool HasComponent<T>(out T component) where T : Component
     {
-        component = (T)_components.Find(c => c is T)!;
+        component = (T)Components.Find(c => c is T)!;
         return component != null;
     }
-}
-
-public class Transform : Component
-{
-    public Vector3 Position { get; set; }
-    public Vector3 Scale { get; set; }
-    public Quaternion Rotation { get; set; }
-}
-
-public abstract class Component
-{
 }

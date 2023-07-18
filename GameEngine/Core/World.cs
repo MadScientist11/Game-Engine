@@ -3,10 +3,10 @@
 public class World
 {
     public HashSet<GameObject> Entities { get; } = new();
-    
+
     private Camera? _camera;
     private readonly Graphics _graphics;
-    
+
     private readonly Queue<MeshRenderer> _renderQueue = new();
 
     public World(Graphics graphics)
@@ -27,8 +27,8 @@ public class World
             {
                 _camera = camera;
             }
-            
-            if(entity.HasComponent(out MeshRenderer meshRenderer))
+
+            if (entity.HasComponent(out MeshRenderer meshRenderer))
             {
                 _renderQueue.Enqueue(meshRenderer);
             }
@@ -38,10 +38,13 @@ public class World
         {
             throw new Exception("No camera found");
         }
-        
+
         foreach (MeshRenderer meshRenderer in _renderQueue)
         {
-            _graphics.Render(meshRenderer.Mesh, meshRenderer.Material);
+            if (meshRenderer.HasComponent(out Transform transform))
+            {
+                _graphics.Render(transform, meshRenderer.Mesh, meshRenderer.Material);
+            }
         }
     }
 }

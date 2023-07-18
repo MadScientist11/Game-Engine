@@ -15,7 +15,7 @@ public class GameWindow : GameWindowBase
     private Shader _shader;
     private Texture2D _texture;
     private Texture2D _texture2;
-    private GameObject _gameObject;
+    private GameObject _object;
     private World _world;
 
     protected override void OnCreateWindow(ref WindowOptions windowOptions)
@@ -41,9 +41,15 @@ public class GameWindow : GameWindowBase
 
         Material material = new Material(_shader, _texture);
 
-        _gameObject = new GameObject();
-        _gameObject.AddComponent(new MeshRenderer(mesh, material));
-        _world.AddEntity(_gameObject);
+        _object = new GameObject();
+        _object.AddComponent(new MeshRenderer(mesh, material));
+        _object.HasComponent(out Transform transform);
+        transform.Position = new Vector3(0, 1, 0);
+        _world.AddEntity(_object);
+        GameObject camera = new GameObject();
+        camera.AddComponent(new Camera());
+        _world.AddEntity(camera);
+
     }
 
     protected override void OnRender(double obj)
