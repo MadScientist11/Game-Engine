@@ -5,18 +5,18 @@ in vec2 texCoord;
 
 out vec4 out_color;
 
-
-
-void main()
-{
-    out_color = vec4(ourColor,1.0);
-}
+uniform sampler2D texture1;
 
 //void main()
 //{
-//    out_color = texture(ourTexture, texCoord) * vec4(ourColor, 1.0);
-//
+//    out_color = vec4(ourColor,1.0);
 //}
+
+void main()
+{
+    out_color = texture(texture1, texCoord) * vec4(ourColor, 1.0);
+
+}
 
 
 //void main()

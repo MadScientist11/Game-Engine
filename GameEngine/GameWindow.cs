@@ -16,6 +16,7 @@ public class GameWindow : GameWindowBase
     private Texture2D _texture;
     private Texture2D _texture2;
     private GameObject _gameObject;
+    private World _world;
 
     protected override void OnCreateWindow(ref WindowOptions windowOptions)
     {
@@ -28,6 +29,8 @@ public class GameWindow : GameWindowBase
     {
         base.OnLoad();
         Graphics.SetClearColor(Color.CornflowerBlue);
+        
+        _world = new World(Graphics);
 
         Mesh mesh = CreateQuadMesh();
 
@@ -38,13 +41,16 @@ public class GameWindow : GameWindowBase
 
         Material material = new Material(_shader, _texture);
 
-        _gameObject = new GameObject(mesh, material);
+        _gameObject = new GameObject();
+        _gameObject.AddComponent(new MeshRenderer(mesh, material));
+        _world.AddEntity(_gameObject);
     }
 
     protected override void OnRender(double obj)
     {
         Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
-        Graphics.Render(_gameObject);
+
+        _world.RenderWorld();
     }
 
     private Mesh CreateQuadMesh()
@@ -71,7 +77,7 @@ public class GameWindow : GameWindowBase
             0.0f, 0.0f, 1.0f,
             1.0f, 1.0f, 0.0f,
         };
-        
+
         float[] textureCoords =
         {
             1, 1,

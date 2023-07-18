@@ -28,14 +28,16 @@ public class Graphics
     public void ClearColor(ClearBufferMask mask) => Gl.Clear(mask);
 
 
-    public unsafe void Render(GameObject gameObject)
+    public unsafe void Render(Mesh mesh, Material material)
     {
-        gameObject.Mesh.Build();
+        if (material.Albedo != null)
+            Texture2D.Bind(material.Albedo.Id, 0);
+        mesh.Build();
 
-        Gl.BindVertexArray(gameObject.Mesh.Id);
-        Gl.UseProgram(gameObject.Material.ShaderId);
+        Gl.BindVertexArray(mesh.Id);
+        Gl.UseProgram(material.ShaderId);
 
-        uint count = (uint)gameObject.Mesh.Triangles.Length;
+        uint count = (uint)mesh.Triangles.Length;
         Gl.DrawElements(PrimitiveType.Triangles, count, DrawElementsType.UnsignedInt, (void*)0);
     }
 }
