@@ -6,7 +6,7 @@ namespace GameEngine.Core;
 public class Mesh
 {
     public uint Id => _vao;
-    
+
     public float[]? Vertices { get; private set; }
     public uint[]? Triangles { get; private set; }
     public float[]? Colors { get; private set; }
@@ -17,7 +17,6 @@ public class Mesh
     private uint _vao;
     private uint _vbo;
     private uint _ebo;
-    
 
 
     public Mesh SetVertices(float[] vertices)
@@ -51,9 +50,9 @@ public class Mesh
         _vbo = Gl.GenBuffer();
         Gl.BindBuffer(BufferTargetARB.ArrayBuffer, _vbo);
 
-        if (Vertices is null || Triangles is null)
+        if (Vertices is null)
         {
-            throw new Exception("Mesh must have vertices and triangles");
+            throw new Exception("Mesh must have vertices");
         }
 
         float[] vertexAttributes = GetAttributes().ToArray();
@@ -61,13 +60,15 @@ public class Mesh
             Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(vertexAttributes.Length * sizeof(float)), buf,
                 BufferUsageARB.StaticDraw);
 
-        
-        _ebo = Gl.GenBuffer();
-        Gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, _ebo);
+        if (Triangles is not null)
+        {
+            _ebo = Gl.GenBuffer();
+            Gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, _ebo);
 
-        fixed (uint* buf = Triangles)
-            Gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint)(Triangles.Length * sizeof(uint)), buf,
-                BufferUsageARB.StaticDraw);
+            fixed (uint* buf = Triangles)
+                Gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint)(Triangles.Length * sizeof(uint)), buf,
+                    BufferUsageARB.StaticDraw);
+        }
 
 
         uint stride = GetStride() * sizeof(float);

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Numerics;
 using GameEngine.Core;
 using Silk.NET.Maths;
@@ -18,10 +19,15 @@ public class GameWindow : GameWindowBase
     private GameObject _object;
     private World _world;
 
+    private Vector2D<int> Size = new Vector2D<int>(800, 600);
+    private Transform _objectTransform;
+    private Camera _cameraComp;
+    private Transform _camTransform;
+
     protected override void OnCreateWindow(ref WindowOptions windowOptions)
     {
         base.OnCreateWindow(ref windowOptions);
-        windowOptions.Size = new Vector2D<int>(800, 600);
+        windowOptions.Size = Size;
         windowOptions.Title = "Game";
     }
 
@@ -29,34 +35,201 @@ public class GameWindow : GameWindowBase
     {
         base.OnLoad();
         Graphics.SetClearColor(Color.CornflowerBlue);
-        
+
         _world = new World(Graphics);
 
-        Mesh mesh = CreateQuadMesh();
+        Mesh mesh = CreateCubeMesh();
 
         _texture = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\wood.png");
         _texture2 = new Texture2D(@"D:\UnityProjects\GameEngine\GameEngine\Textures\awesomeface.png");
         _shader = Shader.Create(@"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.vert",
             @"D:\UnityProjects\GameEngine\GameEngine\Shaders\Default.frag");
 
-        Material material = new Material(_shader, _texture);
+        DefaultMaterial defaultMaterial = new DefaultMaterial(_shader, _texture);
 
         _object = new GameObject();
-        _object.AddComponent(new MeshRenderer(mesh, material));
+        _object.AddComponent(new MeshRenderer(mesh, defaultMaterial));
         _object.HasComponent(out Transform transform);
-        transform.Position = new Vector3(0, 1, 0);
+        _objectTransform = transform;
+        transform.Position = new Vector3(0, 0, 0);
+
         _world.AddEntity(_object);
         GameObject camera = new GameObject();
-        camera.AddComponent(new Camera());
+        _cameraComp = new Camera();
+        _cameraComp.Size = Size;
+        camera.AddComponent(_cameraComp);
+        camera.HasComponent(out Transform camTransform);
+        _camTransform = camTransform;
+        _camTransform.Position = new Vector3(0, 0, -10);
+        //camTransform.Rotation = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathHelper.ToRadians(-45));
         _world.AddEntity(camera);
-
+        
+        Graphics.Enable(EnableCap.DepthTest);
     }
 
-    protected override void OnRender(double obj)
+    private float angle = 0;
+
+    protected override void OnRender(double deltaTime)
     {
-        Graphics.ClearColor(ClearBufferMask.ColorBufferBit);
+        Graphics.ClearColor(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        angle += 20 * (float)deltaTime;
+        _objectTransform.Rotation = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathHelper.ToRadians(angle));
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
         _world.RenderWorld();
+    }
+
+    private Mesh CreateCubeMesh()
+    {
+        Mesh mesh = new Mesh();
+
+
+
+        float[] vertices =
+        {
+            -0.5f, -0.5f, -0.5f,
+             0.5f, -0.5f, -0.5f,
+             0.5f,  0.5f, -0.5f,
+             0.5f,  0.5f, -0.5f,
+            -0.5f,  0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f,  0.5f,
+             0.5f, -0.5f,  0.5f,
+             0.5f,  0.5f,  0.5f,
+             0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+             0.5f,  0.5f,  0.5f,
+             0.5f,  0.5f, -0.5f,
+             0.5f, -0.5f, -0.5f,
+             0.5f, -0.5f, -0.5f,
+             0.5f, -0.5f,  0.5f,
+             0.5f,  0.5f,  0.5f,
+            -0.5f, -0.5f, -0.5f,
+             0.5f, -0.5f, -0.5f,
+             0.5f, -0.5f,  0.5f,
+             0.5f, -0.5f,  0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f,  0.5f, -0.5f,
+             0.5f,  0.5f, -0.5f,
+        };
+
+
+
+        float[] colors =
+        {
+            0.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,
+            0.0f, 1.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 1.0f, 1.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,
+            1.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,
+            0.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+        };
+
+        float[] textureCoords =
+        {
+            0.0f, 0.0f,
+
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f,
+            0.0f, 0.0f,
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f,
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            0.0f, 1.0f,
+            0.0f, 0.0f,
+            0.0f, 0.0f,
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            1.0f, 0.0f,
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+        };
+
+
+        mesh.SetVertices(vertices)
+            .SetColors(colors)
+            .SetTextureCoords(textureCoords);
+
+        return mesh;
     }
 
     private Mesh CreateQuadMesh()

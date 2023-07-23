@@ -3,12 +3,12 @@
 public class MeshRenderer : Component
 {
     public Mesh Mesh { get; }
-    public Material Material { get; }
+    public DefaultMaterial DefaultMaterial { get; }
 
-    public MeshRenderer(Mesh mesh, Material material)
+    public MeshRenderer(Mesh mesh, DefaultMaterial defaultMaterial)
     {
         Mesh = mesh;
-        Material = material;
+        DefaultMaterial = defaultMaterial;
     }
     
 

@@ -2,16 +2,17 @@
 
 namespace GameEngine.Core;
 
-public class Material
+public class DefaultMaterial
 {
     public uint ShaderId { get; }
     public Texture2D Albedo { get; }
 
-    public Material(Shader shader, Texture2D albedo)
+    public DefaultMaterial(Shader shader, Texture2D albedo)
     {
         ShaderId = shader.Id;
         Albedo = albedo;
     }
+    
 
     public void SetFloat(string name, float value)
     {
